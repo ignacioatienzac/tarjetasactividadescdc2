@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Representar o explicar?</title>
+    <style>
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fcf8e3; /* Fondo crema claro */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra los bloques principales horizontalmente */
+            justify-content: center; /* Centra verticalmente en la pantalla */
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Contenedor del título e instrucciones */
+        .game-header {
+            background-color: #ffffff;
+            padding: 1.5em 2em;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px; /* Ancho máximo para el encabezado */
+            margin-bottom: 2em; /* Espacio entre el encabezado y el contenido principal */
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 0.8em;
+            font-size: 2.5em;
+        }
+
+        .instructions {
+            text-align: left;
+            margin: 0 auto 1em auto;
+            padding-left: 0;
+            list-style: none;
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.1em;
+            max-width: 600px; /* Centra la lista de instrucciones */
+        }
+
+        .instructions li {
+            margin-bottom: 0.8em;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .instructions li span.emoji {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .color-azul { color: #007bff; font-weight: bold; }
+        .color-verde { color: #28a745; font-weight: bold; }
+
+        /* NUEVO: Contenedor principal para el juego y la imagen */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Alinea verticalmente la tarjeta y la imagen */
+            gap: 2em; /* Espacio entre la zona de juego y la imagen */
+            width: 100%;
+            max-width: 1100px; /* Ancho máximo del conjunto */
+        }
+        
+        /* NUEVO: Área de juego (izquierda) */
+        .game-area {
+            flex: 1; /* Ocupa el espacio disponible */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px; /* Limita el ancho del área de juego */
+        }
+
+        /* Contenedor de la tarjeta */
+        #tarjeta {
+            background-color: #ffffff;
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            width: 100%;
+            min-height: 300px; /* Altura consistente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        #textoTarjeta {
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        /* Botón interactivo */
+        #siguiente {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.4em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-top: 2em; /* Espacio entre la tarjeta y el botón */
+        }
+
+        #siguiente:hover { background-color: #218838; }
+        #siguiente:active { transform: scale(0.98); }
+        
+        /* NUEVO: Área de la imagen (derecha) */
+        .image-area {
+            flex: 1; /* Ocupa el espacio disponible */
+            max-width: 500px; /* Mismo ancho máximo que el área de juego */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .main-image {
+            max-width: 100%; /* La imagen se ajusta a su contenedor */
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Media queries para responsividad */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column; /* Apila las columnas verticalmente */
+                gap: 2.5em; /* Aumenta el espacio vertical */
+            }
+            .game-area, .image-area {
+                max-width: 500px; /* Ancho máximo para pantallas de tablet */
+                width: 100%;
+            }
+            #textoTarjeta { font-size: 2.5em; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            h1 { font-size: 2em; }
+            .game-header { padding: 1em; }
+            .instructions { font-size: 1em; }
+            #tarjeta { min-height: 250px; }
+            #textoTarjeta { font-size: 2em; }
+            #siguiente { font-size: 1.2em; padding: 15px 30px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="game-header">
+        <h1>¿Representar o explicar?</h1>
+        <ul class="instructions">
+            <li><span class="emoji">👥</span> Grupos de 3 o 4 personas.</li>
+            <li><span class="emoji">👀</span> <b>Solo un estudiante puede mirar la pantalla.</b></li>
+            <li><span class="emoji">👆</span> El estudiante hace click en “siguiente tarjeta”.</li>
+            <li><span class="emoji">🔵</span> Si la tarjeta tiene el fondo <span class="color-azul">azul</span> tienes que representar la acción que aparece.</li>
+            <li><span class="emoji">🟢</span> Si el fondo es <span class="color-verde">verde</span>, tienes que explicarla sin decir ninguna de las palabras que aparecen en la tarjeta.</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="game-area">
+            <div id="tarjeta">
+                <span id="textoTarjeta">¡Pulsa el botón para empezar!</span>
+            </div>
+            <button id="siguiente">Siguiente Tarjeta</button>
+        </div>
+        <div class="image-area">
+            <img src="https://i.imgur.com/CqZG3sq.png" alt="Grupo de amigos jugando" class="main-image">
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE LAS TARJETAS ---
+        const tarjetasAzules = [
+            'HACER FOTOGRAFÍAS', 'JUGAR A LOS BOLOS', 'TOMAR UNA CERVEZA',
+            'VER UN PARTIDO DE FÚTBOL', 'PINTAR', 'MONTAR A CABALLO',
+            'PRACTICAR YOGA', 'IR EN BICI', 'BAILAR',
+            'IR AL GIMNASIO', 'TOCAR EL VIOLÍN', 'IR DE COPAS'
+        ].map(texto => ({ texto, color: '#b5d6ed', tipo: 'azul' }));
+
+        const tarjetasVerdes = [
+            'IR A UN RESTAURANTE', 'ESCUCHAR MÚSICA', 'LEER',
+            'VER SERIES', 'SALIR A CENAR', 'PARTICIPAR EN UNA CARRERA',
+            'JUGAR A LAS CARTAS', 'HACER SENDERISMO', 'IR AL CINE',
+            'PASAR UN RATO CON LOS AMIGOS', 'TOMAR UN CAFÉ', 'HACER SUBMARINISMO'
+        ].map(texto => ({ texto, color: '#bfee90', tipo: 'verde' }));
+
+        // --- LÓGICA DEL JUEGO (sin cambios) ---
+        const tarjetaDiv = document.getElementById('tarjeta');
+        const textoTarjetaSpan = document.getElementById('textoTarjeta');
+        const siguienteBtn = document.getElementById('siguiente');
+
+        let mazoCompleto = [...tarjetasAzules, ...tarjetasVerdes];
+        let mazoActual = [];
+        let historialTarjetas = [];
+
+        function barajarMazo() {
+            let mazoParaBarajar = [...mazoCompleto];
+            let indiceActual = mazoParaBarajar.length, valorTemporal, indiceAleatorio;
+            while (0 !== indiceActual) {
+                indiceAleatorio = Math.floor(Math.random() * indiceActual);
+                indiceActual -= 1;
+                valorTemporal = mazoParaBarajar[indiceActual];
+                mazoParaBarajar[indiceActual] = mazoParaBarajar[indiceAleatorio];
+                mazoParaBarajar[indiceAleatorio] = valorTemporal;
+            }
+            mazoActual = mazoParaBarajar;
+            historialTarjetas = [];
+            console.log("Mazo barajado. ¡Listo para jugar!");
+        }
+
+        function mostrarSiguienteTarjeta() {
+            if (mazoActual.length === 0) {
+                alert("¡Has completado todas las tarjetas! El mazo se barajará de nuevo.");
+                barajarMazo();
+            }
+
+            let tarjetaSeleccionada;
+            const ultimoTipo = historialTarjetas.length > 0 ? historialTarjetas[historialTarjetas.length - 1].tipo : null;
+            const penultimoTipo = historialTarjetas.length > 1 ? historialTarjetas[historialTarjetas.length - 2].tipo : null;
+
+            if (ultimoTipo && ultimoTipo === penultimoTipo) {
+                const tipoOpuesto = ultimoTipo === 'azul' ? 'verde' : 'azul';
+                const indiceOpuesto = mazoActual.findIndex(t => t.tipo === tipoOpuesto);
+                if (indiceOpuesto !== -1) {
+                    tarjetaSeleccionada = mazoActual.splice(indiceOpuesto, 1)[0];
+                } else {
+                    tarjetaSeleccionada = mazoActual.pop();
+                }
+            } else {
+                tarjetaSeleccionada = mazoActual.pop();
+            }
+
+            tarjetaDiv.style.backgroundColor = tarjetaSeleccionada.color;
+            tarjetaDiv.style.borderColor = tarjetaSeleccionada.color;
+            textoTarjetaSpan.textContent = tarjetaSeleccionada.texto;
+            historialTarjetas.push(tarjetaSeleccionada);
+
+            if (mazoActual.length === 0) {
+                siguienteBtn.textContent = 'Empezar de Nuevo';
+            } else {
+                siguienteBtn.textContent = 'Siguiente Tarjeta';
+            }
+        }
+
+        siguienteBtn.addEventListener('click', mostrarSiguienteTarjeta);
+        barajarMazo();
+    </script>
+
+</body>
+</html>
